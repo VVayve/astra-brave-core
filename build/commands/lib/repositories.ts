@@ -63,7 +63,8 @@ export function parsePatchedRepositories(
   const relativePaths: string[] = []
   for (const [index, rawLine] of contents.split('\n').entries()) {
     const lineNumber = index + 1
-    const line = rawLine.replace(/#.*$/, '').trim() // Removing comments.
+    // Split comments before trimming so both LF and CRLF files behave alike.
+    const line = rawLine.split('#', 1)[0].trim() // Removing comments.
     if (line.length === 0) {
       continue
     }
